@@ -18,3 +18,6 @@ serve:
                 system('gunicorn "abctf.wsgi:app" --bind 0.0.0.0:8000 --workers 4')
     except KeyboardInterrupt:
         pass
+
+dev:
+    flask --app "abctf.wsgi:app" run --debug
