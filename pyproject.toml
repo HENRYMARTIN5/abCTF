@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.1",
+    "flask-login>=0.6.3",
     "flask-sqlalchemy>=3.1.1",
     "gunicorn>=23.0.0",
     "python-dotenv>=1.1.1",
@@ -27,3 +28,6 @@ dev = [
     "types-flask>=1.1.6",
     "types-flask-sqlalchemy>=2.5.9.4",
 ]
+
+[tool.setuptools]
+packages = ["abctf"]
