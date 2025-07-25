@@ -4,4 +4,26 @@ version = "0.0.1"
 description = "Dead-simple, extensible CTF platform."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "flask>=3.1.1",
+    "flask-sqlalchemy>=3.1.1",
+    "gunicorn>=23.0.0",
+    "python-dotenv>=1.1.1",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Flask",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17.0",
+    "types-flask>=1.1.6",
+    "types-flask-sqlalchemy>=2.5.9.4",
+]
