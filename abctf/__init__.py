@@ -35,8 +35,8 @@ def create_app() -> Flask:
             db.create_all()
             print("Tables created.")
 
-            admin_user = os.environ.get('ADMIN_USER')
-            admin_pass = os.environ.get('ADMIN_PASS')
+            admin_user = os.environ.get('ADMIN_USER').strip()
+            admin_pass = os.environ.get('ADMIN_PASS').strip()
 
             if admin_user and admin_pass:
                 if not models.User.query.filter_by(username=admin_user).first():
@@ -47,7 +47,7 @@ def create_app() -> Flask:
                     admin.set_password(admin_pass)
                     db.session.add(admin)
                     db.session.commit()
-                    print(f"Default admin user '{admin_user}' created.")
+                    print(f"Default admin user '{admin_user}':'{admin_pass}' created.")
                 else:
                     print(f"Admin user '{admin_user}' already exists.")
             else:
