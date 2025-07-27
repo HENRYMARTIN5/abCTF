@@ -37,3 +37,11 @@ a:hover {
     gap: 1rem; 
     align-items: center;
 }
+
+button.button-danger {
+    background-color: var(--danger-color);
+}
+
+[type="submit"]:enabled:hover.button-danger, button:not([type]):enabled:hover.button-danger {
+    background-color: var(--danger-hover-color);
+}

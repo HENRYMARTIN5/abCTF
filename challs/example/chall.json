@@ -1,0 +1,8 @@
+{
+  "id": "example1",
+  "title": "Example Challenge",
+  "category": "Example",
+  "points": 500,
+  "description_file": "README.md",
+  "flag": "flag{s4n1t1z3_y0ur_1nput5!}"
+}

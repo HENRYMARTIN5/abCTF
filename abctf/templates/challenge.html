@@ -1,0 +1,35 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <header>
+        <h2>{{ challenge.title }}</h2>
+        <p>
+            <strong>Category:</strong> {{ challenge.category }} | 
+            <strong>Value:</strong> {{ current_value }} |
+            <strong>Solves:</strong> {{ num_solves }}
+        </p>
+        <a href="{{ url_for('challenges.board') }}"><button class="button-danger">Back</button></a>
+    </header>
+
+    <section>
+        {{ challenge.description|safe }}
+    </section>
+
+    <footer>
+        {% if team_solve %}
+            <div class="notice success">
+                <i class="fas fa-check"></i>
+                Your team solved this on {{ team_solve.created_at.strftime('%Y-%m-%d at %H:%M') }} UTC
+                by <strong>{{ team_solve.user.username }}</strong>, earning {{ team_solve.points_awarded }} points.
+            </div>
+        {% else %}
+            <form method="post" action="{{ url_for('challenges.submit', challenge_id=challenge.id) }}">
+                <label for="flag">Flag</label>
+                <!-- TODO: custom flag format -->
+                <input type="text" name="flag" id="flag" placeholder="flag{...}" required>
+                <button type="submit">Submit</button>
+            </form>
+        {% endif %}
+    </footer>
+</article>
+{% endblock main %}

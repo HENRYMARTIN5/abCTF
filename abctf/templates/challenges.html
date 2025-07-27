@@ -1,0 +1,51 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <header>
+        <h2>Challenge Board</h2>
+    </header>
+
+    {% for category, challenges in categories.items()|sort %}
+    <details open>
+        <summary>{{ category }}</summary>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chal in challenges %}
+                <tr class="{{ 'solved' if chal.solved_by_user else '' }}">
+                    <td>
+                        <a href="{{ url_for('challenges.detail', challenge_id=chal.id) }}">
+                            {{ chal.title }}
+                        </a>
+                        {% if chal.solved_by_user %}
+                            <i class="fas fa-check" title="Solved"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <strong>{{ chal.points }}</strong>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </details>
+    {% else %}
+    <p>There are no challenges available at this time.</p>
+    {% endfor %}
+</article>
+
+<style>
+    tr.solved a {
+        text-decoration: line-through;
+        color: var(--muted-color, grey);
+    }
+    tr.solved i {
+        color: var(--success-color, green);
+    }
+</style>
+{% endblock main %}

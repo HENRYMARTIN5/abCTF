@@ -63,10 +63,15 @@ def view_team(team_id):
     """Displays the team's details."""
     team = Team.query.get_or_404(team_id)
     available_users = User.query.filter_by(team_id=None).all()
-    invite_url = url_for('team.join_by_invite', invite_code=team.invite_code, _external=True)
+    invite_url = url_for(
+        "team.join_by_invite", invite_code=team.invite_code, _external=True
+    )
 
     return render_template(
-        "team_details.html", team=team, available_users=available_users, invite_url=invite_url
+        "team_details.html",
+        team=team,
+        available_users=available_users,
+        invite_url=invite_url,
     )
 
 

@@ -11,9 +11,9 @@ import os
 
 from flask import Flask
 
-from .extensions import db, login_manager
+from .extensions import db, login_manager, chall_service
 from .routes import all_bp
-from . import models  # noqa
+from .models import User
 
 
 def create_app() -> Flask:
@@ -30,7 +30,7 @@ def create_app() -> Flask:
 
     with app.app_context():
         inspector = inspect(db.engine)
-        if not inspector.has_table(models.User.__tablename__):
+        if not inspector.has_table(User.__tablename__):
             print("Database tables not found, creating them...")
             db.create_all()
             print("Tables created.")
@@ -39,8 +39,8 @@ def create_app() -> Flask:
             admin_pass = os.environ.get("ADMIN_PASS").strip()
 
             if admin_user and admin_pass:
-                if not models.User.query.filter_by(username=admin_user).first():
-                    admin = models.User(username=admin_user, is_admin=True)
+                if not User.query.filter_by(username=admin_user).first():
+                    admin = User(username=admin_user, is_admin=True)
                     admin.set_password(admin_pass)
                     db.session.add(admin)
                     db.session.commit()
@@ -49,4 +49,7 @@ def create_app() -> Flask:
                     print(f"Admin user '{admin_user}' already exists.")
             else:
                 print("ADMIN_USER or ADMIN_PASS not set, skipping admin creation.")
+
+    chall_service.load_challenges()
+
     return app

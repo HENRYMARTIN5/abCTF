@@ -1,0 +1,39 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <header>
+        <h2>Scoreboard</h2>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Score</th>
+                <th>Last Solve By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in scoreboard %}
+            <tr class="{{ 'current-team' if current_user.team and current_user.team.name == entry.team_name else '' }}">
+                <td>{{ entry.rank }}</td>
+                <td>{{ entry.team_name }}</td>
+                <td><strong>{{ entry.score }}</strong></td>
+                <td>{{ entry.last_solve_by or 'N/A' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No teams have scored yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+
+<style>
+    tr.current-team {
+        background-color: var(--primary-focus, rgb(85, 102, 107));
+        font-weight: bold;
+    }
+</style>
+{% endblock main %}
