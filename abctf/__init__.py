@@ -13,7 +13,7 @@ from flask import Flask
 
 from .extensions import db, login_manager
 from .routes import all_bp
-from . import models # noqa
+from . import models  # noqa
 
 
 def create_app() -> Flask:
@@ -27,7 +27,7 @@ def create_app() -> Flask:
 
     for bp in all_bp:
         app.register_blueprint(bp)
-        
+
     with app.app_context():
         inspector = inspect(db.engine)
         if not inspector.has_table(models.User.__tablename__):
@@ -35,15 +35,12 @@ def create_app() -> Flask:
             db.create_all()
             print("Tables created.")
 
-            admin_user = os.environ.get('ADMIN_USER').strip()
-            admin_pass = os.environ.get('ADMIN_PASS').strip()
+            admin_user = os.environ.get("ADMIN_USER").strip()
+            admin_pass = os.environ.get("ADMIN_PASS").strip()
 
             if admin_user and admin_pass:
                 if not models.User.query.filter_by(username=admin_user).first():
-                    admin = models.User(
-                        username=admin_user,
-                        is_admin=True
-                    )
+                    admin = models.User(username=admin_user, is_admin=True)
                     admin.set_password(admin_pass)
                     db.session.add(admin)
                     db.session.commit()

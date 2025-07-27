@@ -1,0 +1,25 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <header>
+        <h2>Join Team: {{ team.name }}</h2>
+    </header>
+
+    {% if current_user.team and current_user.team.id == team.id %}
+        <p>You are already a member of this team.</p>
+        <a href="{{ url_for('team.my_team') }}" role="button">Go to My Team</a>
+    {% elif current_user.team %}
+        <p>You are currently on team '{{ current_user.team.name }}'.</p>
+        <p>You must leave your current team before you can join a new one.</p>
+        <a href="{{ url_for('team.my_team') }}" role="button">Go to My Team</a>
+    {% else %}
+        <p>You have been invited to join <strong>{{ team.name }}</strong>. The captain is {{ team.captain.username }}.</p>
+        <form method="post">
+            <p>Do you want to accept the invitation?</p>
+            <button type="submit">Yes, Join Team</button>
+            <a href="{{ url_for('team.list_teams') }}" role="button" class="secondary">Cancel</a>
+        </form>
+    {% endif %}
+
+</article>
+{% endblock main %}

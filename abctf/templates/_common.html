@@ -21,14 +21,33 @@
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
+            {% if is_authed %}
+                {% if is_on_team %}
+                    <li><a href="/team">My Team</a></li>
+                {% else %}
+                    <li><a href="/team/create">Create a Team</a></li>
+                {% endif %}
+            {% endif %}
             <li><a href="/challenges">Challenges</a></li>
             <li><a href="/scoreboard">Scoreboard</a></li>
-            <li><a href="/team">Team</a></li>
-            <li><a href="/login">Log In</a></li>
+            
+            {% if not is_authed %}
+                <li class="push-right"><span><a href="/login">Log In</a> or <a href="/register"><button type="button">Register</button></a></span></li>
+            {% else %}
+                <li class="push-right">
+                    <span>{{ username }}</span>
+                    <ul>
+                        <li><a href="/logout">Log Out</a></li>
+                    </ul>
+                </li>
+            {% endif %}
         </ul>
     </nav>
     {% endblock %}
     <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}{% for message in messages %}<blockquote>{{ message }}</blockquote>{% endfor %}{% endif %}
+        {% endwith %}
         {% block main %}{% endblock %}
     </main>
     <footer>

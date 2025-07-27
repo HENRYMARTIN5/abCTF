@@ -13,3 +13,27 @@ h1, h2, h3, h4, h5, h6 {
                 -webkit-background-clip 0.5s ease, -webkit-text-fill-color 0.5s ease;
 } */
 
+nav ul {
+    display: flex;
+    list-style: none; /* To remove the default list bullets */
+}
+
+.push-right {
+    margin-left: auto;
+}
+
+a:visited {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr auto; 
+    gap: 1rem; 
+    align-items: center;
+}

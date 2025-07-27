@@ -1,0 +1,96 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <h1>Team: {{ team.name }}</h1>
+
+    <h3>Members</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                {% if current_user.id == team.captain_id %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in team.users %}
+            <tr>
+                <td>
+                    {{ user.username }}
+                    {% if user.id == team.captain_id %}
+                    <strong>(Captain)</strong>
+                    {% endif %}
+                </td>
+                {% if current_user.id == team.captain_id %}
+                <td>
+                    {% if user.id != team.captain_id %}
+                        <form action="{{ url_for('team.set_captain', team_id=team.id, user_id=user.id) }}" method="post" style="display: inline-block;">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                        <form action="{{ url_for('team.remove_member', team_id=team.id, user_id=user.id) }}" method="post" style="display: inline-block;">
+                            <button type="submit" class="secondary" onclick="return confirm('Are you sure you want to remove {{ user.username }}?');">Remove</button>
+                        </form>
+                    {% else %}
+                        <span>—</span>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="{% if current_user.id == team.captain_id %}2{% else %}1{% endif %}">This team has no members.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Invite New Members</h3>
+    <div class="grid">
+        <input type="text" id="invite-link" value="{{ invite_url }}" readonly>
+        <button onclick="copyInviteLink(this)">
+            <i class="fas fa-copy"></i>
+            <span>Copy Link</span>
+        </button>
+    </div>
+</article>
+
+<br>
+
+<a href="{{ url_for('team.list_teams') }}"><button>Back to All Teams</button></a>
+
+<script>
+function copyInviteLink(button) {
+    const inputElement = document.getElementById("invite-link");
+    const iconElement = button.querySelector('i');
+    const textElement = button.querySelector('span');
+
+    navigator.clipboard.writeText(inputElement.value).then(() => {
+        const originalIconClass = iconElement.className;
+        const originalText = textElement.textContent;
+
+        iconElement.className = "fas fa-check";
+        textElement.textContent = "Copied!";
+        
+        button.disabled = true;
+
+        setTimeout(() => {
+            iconElement.className = originalIconClass;
+            textElement.textContent = originalText;
+            button.disabled = false;
+        }, 2000);
+
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+        iconElement.className = "fas fa-exclamation-triangle";
+        textElement.textContent = "Error";
+        button.disabled = true;
+        setTimeout(() => {
+            iconElement.className = originalIconClass;
+            textElement.textContent = originalText;
+            button.disabled = false;
+        }, 2000);    
+    });
+}
+</script>
+{% endblock main %}

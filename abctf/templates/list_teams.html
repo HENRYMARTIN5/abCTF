@@ -1,0 +1,37 @@
+{% extends "_common.html" %}
+{% block main %}
+<article>
+    <header>
+        <h2>All Teams</h2>
+    </header>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Team Name</th>
+                <th>Captain</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('team.view_team', team_id=team.id) }}">{{ team.name }}</a>
+                </td>
+                <td>
+                    {{ team.captain.username if team.captain else 'None' }}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">No teams have been created yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <footer>
+        <a href="{{ url_for('team.create_team') }}" role="button">Create a New Team</a>
+    </footer>
+</article>
+{% endblock main %}

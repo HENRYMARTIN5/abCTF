@@ -1,0 +1,12 @@
+{% extends "_common.html" %}
+
+{% block title %}{{ action }}{% endblock %}
+
+{% block main %}
+    <h1>{{ action }}</h1>
+    <form method="post">
+        Username: <input type="text" name="username"><br>
+        Password: <input type="password" name="password"><br>
+        <button type="submit">{{ action }}</button>
+    </form>
+{% endblock %}
